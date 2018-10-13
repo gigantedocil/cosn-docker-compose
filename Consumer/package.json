@@ -1,0 +1,20 @@
+{
+  "name": "consumer",
+  "version": "1.0.0",
+  "description": "The consumer.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.18.8",
+    "pg": "^7.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gigantedocil/cosn-docker-compose-node.git"
+  }
+}
