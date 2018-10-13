@@ -1,20 +1,34 @@
 version: '3'
 
 services:
-  #mysql:
-    # Adicionar MySQL
+  mysql:
+    image: mysql
+    container_name: database.dev
+    command: mysqld --user=root --verbose
+    volumes:
+      - ./dbcreation.sql:/tmp/dbcreation.sql
+      - ./import.sh:/tmp/import.sh
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "test"
+      MYSQL_USER: "test"
+      MYSQL_PASSWORD: "test"
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   mqtt:
     image: toke/mosquitto
     ports:
-      - "1883:1883"    
+      - "1883:1883"
+    depends_on: [ mysql ]      
 
   producer:
     build: Producer/.    
-    depends_on: [ mqtt ]
+    depends_on: [ mysql, mqtt ]
 
   consumer:
     build: Consumer/.
     #environment:
       #- USERNAME=xis
       #- PASSWORD=xisxis    
-    depends_on: [ mqtt, producer ]
+    depends_on: [ mysql, mqtt, producer ]
