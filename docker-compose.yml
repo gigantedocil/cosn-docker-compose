@@ -1,34 +1,41 @@
 version: '3'
 
 services:
-  mysql:
-    image: mysql
-    container_name: database.dev
-    command: mysqld --user=root --verbose
-    volumes:
-      - ./dbcreation.sql:/tmp/dbcreation.sql
-      - ./import.sh:/tmp/import.sh
+  postgres:
+    restart: always
+    image: postgres
     ports:
-      - "3306:3306"
+      - '5432:5432'
     environment:
-      MYSQL_DATABASE: "test"
-      MYSQL_USER: "test"
-      MYSQL_PASSWORD: "test"
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: test
+    volumes:
+      - ./database:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+      
   mqtt:
     image: toke/mosquitto
     ports:
-      - "1883:1883"
-    depends_on: [ mysql ]      
+      - '1883:1883'
+    depends_on: [ postgres ]      
 
   producer:
     build: Producer/.    
-    depends_on: [ mysql, mqtt ]
+    depends_on: [ postgres, mqtt ]
 
   consumer:
     build: Consumer/.
-    #environment:
-      #- USERNAME=xis
-      #- PASSWORD=xisxis    
-    depends_on: [ mysql, mqtt, producer ]
+    environment:
+      - HOST=postgres
+      - USER=user    
+      - PASSWORD=example
+      - DATABASE=test
+      - PORT=5432
+    depends_on: [ postgres, mqtt, producer ]

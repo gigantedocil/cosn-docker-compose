@@ -1,16 +1,17 @@
 'use strict';
 
-var mqtt = require('mqtt')
-var client = mqtt.connect('mqtt://mqtt:1883')
+const mqtt = require('mqtt')
+
+const client = mqtt.connect('mqtt://mqtt:1883')
 
 client.on('connect', function () {
     
     console.log('Connected')
 
-    var i = 1;
-    var messageLoop = setInterval(
+    let i = 1;
+    const messageLoop = setInterval(
         () => {
-            var message = 'Message ' + i.toString()
+            const message = 'Message ' + i.toString()
             console.log('Sending ', message)
             client.publish('presence', message)
             i += 1;
