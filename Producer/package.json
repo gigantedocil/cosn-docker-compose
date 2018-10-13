@@ -1,7 +1,7 @@
 {
   "name": "producer",
   "version": "1.0.0",
-  "description": "",
+  "description": "The producer.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,5 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "mqtt": "^2.18.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gigantedocil/cosn-docker-compose-node.git"
   }
 }

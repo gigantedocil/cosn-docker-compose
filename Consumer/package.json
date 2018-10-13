@@ -1,7 +1,7 @@
 {
   "name": "consumer",
   "version": "1.0.0",
-  "description": "",
+  "description": "The consumer.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,5 +12,9 @@
   "dependencies": {
     "mqtt": "^2.18.8",
     "mysql": "^2.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gigantedocil/cosn-docker-compose-node.git"
   }
 }
